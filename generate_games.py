@@ -19,7 +19,7 @@ def savepgn(df,model_type,topp,maxlen,eval_type):
         game.headers["Round"] = str(i)
         game.headers["White"] = str(model_type)
         game.headers["Black"] = str(model_type)
-        filenamepgn = './data/games/partien_'+ eval_type + model_type + str(int(topp*100)) + str(maxlen) + '.pgn'
+        filenamepgn = '../data/games/partien_'+ eval_type + model_type + str(int(topp*100)) + str(maxlen) + '.pgn'
         print(game, file=open(filenamepgn, "a"), end="\n\n")
 
 
@@ -43,7 +43,7 @@ def count_moves(df):
 
 def generate_games(model_type, startpositionen, topp, maxlen, games_per_position):
     tokenizer = AutoTokenizer.from_pretrained(model_type)
-    model = AutoModelWithLMHead.from_pretrained("./data/models"+model_type)
+    model = AutoModelWithLMHead.from_pretrained("../data/models"+model_type)
 
     outputlist = []
     for start in startpositionen:
@@ -59,7 +59,7 @@ def generate_games(model_type, startpositionen, topp, maxlen, games_per_position
             outputlist.append(zuege)
 
     df = pd.DataFrame(outputlist, columns=["Zuege"])
-    filename = './data/games/partien_'+model_type+str(int(topp*100))+str(maxlen)+'.csv'
+    filename = '../data/games/partien_'+model_type+str(int(topp*100))+str(maxlen)+'.csv'
     df.to_csv(filename, index=False)
     savepgn(df, model_type, topp, maxlen,"")
 
@@ -88,7 +88,7 @@ def generate_games_rand(model_type, topp, maxlen, games_per_position, depth):
     start = ' '.join(gamelist[:depth])
 
     tokenizer = AutoTokenizer.from_pretrained(model_type)
-    model = AutoModelWithLMHead.from_pretrained("./data/models" + model_type)
+    model = AutoModelWithLMHead.from_pretrained("../data/models" + model_type)
 
     outputlist = []
     input_ids = tokenizer.encode(start, return_tensors='pt')
@@ -103,7 +103,7 @@ def generate_games_rand(model_type, topp, maxlen, games_per_position, depth):
         outputlist.append(zuege)
 
     df = pd.DataFrame(outputlist, columns=["Zuege"])
-    filename = './data/games/partien_rand_' + model_type + str(int(topp * 100)) + str(maxlen) + '.csv'
+    filename = '../data/games/partien_rand_' + model_type + str(int(topp * 100)) + str(maxlen) + '.csv'
     df.to_csv(filename, index=False)
     savepgn(df, model_type, topp, maxlen,"rand")
 
@@ -116,7 +116,7 @@ def generate_games_file(model_type, topp, maxlen, games_per_position, depth, fil
     df = pd.read_csv(file)
 
     tokenizer = AutoTokenizer.from_pretrained(model_type)
-    model = AutoModelWithLMHead.from_pretrained("./data/models" + model_type)
+    model = AutoModelWithLMHead.from_pretrained("../data/models" + model_type)
 
     df = pd.read_csv(file)
     outputlist = []
@@ -140,7 +140,7 @@ def generate_games_file(model_type, topp, maxlen, games_per_position, depth, fil
             outputlist.append(zuege)
 
     df = pd.DataFrame(outputlist, columns=["Zuege"])
-    filename = './data/games/partien_file_' + model_type + str(int(topp * 100)) + str(maxlen) + '.csv'
+    filename = '../data/games/partien_file_' + model_type + str(int(topp * 100)) + str(maxlen) + '.csv'
     df.to_csv(filename, index=False)
     savepgn(df, model_type, topp, maxlen,"file")
 

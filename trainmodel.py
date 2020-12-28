@@ -27,12 +27,12 @@ def run_training(model_type, train_path, test_path):
     model = AutoModelWithLMHead.from_pretrained(model_type)
 
     training_args = TrainingArguments(
-        output_dir="./data/models"+model_type,
+        output_dir="../data/models"+model_type,
         overwrite_output_dir=True,  # overwrite the content of the output directory
         num_train_epochs=1,  # number of training epochs
         per_device_train_batch_size=32,  # batch size for training
         per_device_eval_batch_size=64,  # batch size for evaluation
-        eval_steps=1000,  # Number of update steps between two evaluations.
+        eval_steps=500,  # Number of update steps between two evaluations.
         save_steps=500,  # after # steps model is saved
         warmup_steps=500,  # number of warmup steps for learning rate scheduler
     )
